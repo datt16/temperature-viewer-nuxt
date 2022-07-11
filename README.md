@@ -1,5 +1,7 @@
 # temperature-viewer-nuxt
 
+とあるセンサーの温度を見れるようにしたアプリです。
+
 ## Build Setup
 
 ```bash
@@ -66,3 +68,7 @@ More information about the usage of this directory in [the documentation](https:
 This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
 
 More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
+
+### 追記
+
+クローンして動かしてみるときは @datt16 から.env ファイルを受け取り、ルートディレクトリに配置して下さい。
