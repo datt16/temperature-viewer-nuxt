@@ -8,14 +8,14 @@
     </section>
 
     <v-row align="center" justify="center">
-      <v-col cols="8">
+      <!--  PC画面用のUI -->
+      <v-col v-if="$vuetify.breakpoint.smAndUp" cols="6">
         <v-card v-if="!loading" class="value-card py-6 mt-4" rounded="lg">
           <v-card-title>
             <span class="mx-2">プール内の水温</span>
           </v-card-title>
 
-          <!--  PC画面用のUI -->
-          <v-row v-if="$vuetify.breakpoint.smAndUp" class="mx-4">
+          <v-row class="mx-4">
             <v-col>
               <span class="text-h2 font-weight-bold">{{
                 records[0].value.toFixed(1)
@@ -48,9 +48,24 @@
               </v-row>
             </v-col>
           </v-row>
+          <v-card-actions>
+            <v-row class="mx-4" no-gutters align="center">
+              <v-icon class="mr-1" small>mdi-cached</v-icon>
+              <span class="text-caption">{{
+                convertDateToString(new Date(records[0].datetime))
+              }}</span>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-col>
 
-          <!--  モバイル画面用のUI -->
-          <v-col v-if="$vuetify.breakpoint.xs">
+      <!--  モバイル画面用のUI -->
+      <v-col v-if="$vuetify.breakpoint.xs" cols="11">
+        <v-card v-if="!loading" class="value-card py-6 mt-4" rounded="lg">
+          <v-card-title>
+            <span class="mx-2">プール内の水温</span>
+          </v-card-title>
+          <v-col>
             <v-col>
               <span class="text-h2 font-weight-bold">{{
                 records[0].value.toFixed(1)
@@ -95,80 +110,70 @@
         </v-card>
       </v-col>
 
-      <!-- グラフPC用 -->
-      <v-col cols="8">
-        <v-card v-if="!loading" class="value-card py-6 mt-4" rounded="lg">
+      <!-- グラフ -->
+      <!-- PC画面用のUI -->
+      <v-col v-if="$vuetify.breakpoint.smAndUp" cols="5">
+        <v-card v-if="!loading" class="value-card py-4 mt-1" rounded="lg">
           <v-card-title>
-            <span class="mx-2">プール内の水温</span>
+            <span class="mx-2">水温推移</span>
           </v-card-title>
 
-          <!-- PC画面用のUI -->
-
-          <v-sheet
-            class="v-sheet--offset mx-auto"
-            color="cyan"
-            elevation="5"
-            max-width="calc(100% - 32px)"
-          >
-            <v-sparkline
-              :labels="label"
-              :value="dots"
-              color="white"
-              line-width="2"
-              padding="16"
-            ></v-sparkline>
-          </v-sheet>
-
-          <v-card-text class="pt-0">
-            <div class="text-h6 font-weight-light mb-2">
-              User Registrations
-            </div>
-            <div class="subheading font-weight-light grey--text">
-              Last Campaign Performance
-            </div>
-            <v-divider class="my-2"></v-divider>
-            <v-icon
-              class="mr-2"
-              small
-            >
-              mdi-clock
-            </v-icon>
-            <span class="text-caption grey--text font-weight-light">last registration 26 minutes ago</span>
-          </v-card-text>
-
-          <!-- モバイル画面用のUI -->
-          <v-col v-if="$vuetify.breakpoint.xs">
+          <v-row class="mx-4">
             <v-col>
-              <span class="text-h2 font-weight-bold">{{
-                records[0].value.toFixed(1)
+              <v-sheet
+                class="v-sheet--offset mx-auto my-2"
+                color="cyan"
+                elevation="5"
+                max-width="calc(100% - 32px)"
+              >
+                <v-sparkline
+                  :labels="label"
+                  :value="dots"
+                  color="white"
+                  line-width="2"
+                  padding="16"
+                ></v-sparkline>
+              </v-sheet>
+
+              <v-card-text class="pt-0">
+                <div class="text-h6 font-weight-light mb-2">
+                  User Registrations
+                </div>
+              </v-card-text>
+            </v-col>
+          </v-row>
+          <v-card-actions>
+            <v-row class="mx-4" no-gutters align="center">
+              <v-icon class="mr-1" small>mdi-cached</v-icon>
+              <span class="text-caption">{{
+                convertDateToString(new Date(records[0].datetime))
               }}</span>
-              <span class="text-h4">℃</span>
-            </v-col>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-col>
 
-            <v-divider class="my-3"></v-divider>
-
-            <v-col>
-              <v-row no-gutters>
-                <span class="text-body-2"> 30分前との差 </span>
-              </v-row>
-              <v-row no-gutters>
-                <v-icon v-if="delta > 0" small class="mr-2" color="error"
-                  >mdi-triangle
-                </v-icon>
-                <v-icon
-                  v-if="delta < 0"
-                  small
-                  class="mr-2"
-                  color="success"
-                  style="transform: rotate(180deg)"
-                  >mdi-triangle
-                </v-icon>
-
-                <span class="text-h6 font-weight-bold">
-                  {{ delta.toFixed(1) }}℃
-                </span>
-              </v-row>
-            </v-col>
+      <!-- モバイル画面用のUI -->
+      <v-col v-if="$vuetify.breakpoint.xs" cols="11">
+        <v-card v-if="!loading" class="value-card py-4 mt-1" rounded="lg">
+          <v-card-title>
+            <span class="mx-2">水温推移</span>
+          </v-card-title>
+          <v-col>
+            <v-sheet
+              class="v-sheet--offset mx-auto"
+              color="cyan"
+              elevation="5"
+              max-width="calc(100% - 32px)"
+            >
+              <v-sparkline
+                :labels="label"
+                :value="dots"
+                color="white"
+                line-width="2"
+                padding="16"
+              ></v-sparkline>
+            </v-sheet>
           </v-col>
 
           <v-card-actions>
