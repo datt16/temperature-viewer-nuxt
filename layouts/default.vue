@@ -7,7 +7,7 @@
     </v-main>
     <v-footer absolute app>
       <span class="copy-">&copy; {{ new Date().getFullYear() }}</span>
-      <img class="umihime-logo" :src="require('@/static/logo/Sea-Net[FullColor].svg')"  />
+      <img class="umihime-logo" :src="require('@/static/logo/Sea-Net[FullColor_darkfont_darktheme].svg')"  />
     </v-footer>
   </v-app>
 </template>
