@@ -1,6 +1,11 @@
 <template>
   <v-col justify="center">
-    <h1>校内プール</h1>
+    <h1>
+      <v-icon large color="rgba(0,0,0)">
+        mdi-pool
+      </v-icon>
+      校内プール
+    </h1>
 
     <section>
       <h3>{{ convertDateToCustomString(new Date()) }}</h3>
