@@ -5,9 +5,9 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer absolute app>
+    <v-footer absolute app dark>
       <span class="copy-">&copy; {{ new Date().getFullYear() }}</span>
-      <img class="umihime-logo" :src="require('@/static/logo/Sea-Net[FullColor_darkfont_darktheme].svg')"  />
+      <img class="umihime-logo" :src="require('@/static/logo/Sea-Net[FullColor].svg')"  />
     </v-footer>
   </v-app>
 </template>
