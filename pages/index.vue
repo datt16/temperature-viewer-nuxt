@@ -121,7 +121,7 @@
           <v-row class="mx-4">
             <v-col>
               <v-sheet
-                class="v-sheet--offset mx-auto my-2"
+                class="v-sheet--offset mx-auto mt-5"
                 color="cyan"
                 elevation="5"
                 max-width="calc(100% - 32px)"
@@ -129,17 +129,12 @@
                 <v-sparkline
                   :labels="label"
                   :value="dots"
+                  :show-labels="true"
                   color="white"
                   line-width="2"
                   padding="16"
                 ></v-sparkline>
               </v-sheet>
-
-              <v-card-text class="pt-0">
-                <div class="text-h6 font-weight-light mb-2">
-                  User Registrations
-                </div>
-              </v-card-text>
             </v-col>
           </v-row>
           <v-card-actions>
@@ -161,7 +156,7 @@
           </v-card-title>
           <v-col>
             <v-sheet
-              class="v-sheet--offset mx-auto"
+              class="v-sheet--offset mx-auto mt-3"
               color="cyan"
               elevation="5"
               max-width="calc(100% - 32px)"
@@ -231,7 +226,7 @@ export default defineComponent({
       delta.value = records.value[9].value - records.value[0].value
       loading.value = false
 
-      for (let d = 0; d < 9; d++) {
+      for (let d = 9; d >= 0; d--) {
         // dots.value[d] = records.value[d].value
         dots.value.push(records.value[d].value)
         label.value.push(convertDateToString(new Date(records.value[d].datetime)))
