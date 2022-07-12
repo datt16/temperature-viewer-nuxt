@@ -1,6 +1,6 @@
 <template>
   <v-col justify="center">
-    <h1>プールの水温</h1>
+    <h1>校内プール</h1>
 
     <section>
       <h3>{{ convertDateToCustomString(new Date()) }}</h3>
@@ -11,14 +11,14 @@
       <v-col cols="8">
         <v-card v-if="!state.loading" class="value-card py-6 mt-4" rounded="lg">
           <v-card-title>
-            <span class="mx-2">水温センサー１</span>
+            <span class="mx-2">プール内の水温</span>
           </v-card-title>
 
           <!--  PC画面用のUI -->
           <v-row v-if="$vuetify.breakpoint.smAndUp" class="mx-4">
             <v-col>
               <span class="text-h2 font-weight-bold">{{
-                state.records[0].value.toFixed()
+                state.records[0].value.toFixed(1)
               }}</span>
               <span class="text-h4">℃</span>
             </v-col>
@@ -53,7 +53,7 @@
           <v-col v-if="$vuetify.breakpoint.xs">
             <v-col>
               <span class="text-h2 font-weight-bold">{{
-                state.records[0].value.toFixed()
+                state.records[0].value.toFixed(1)
               }}</span>
               <span class="text-h4">℃</span>
             </v-col>
