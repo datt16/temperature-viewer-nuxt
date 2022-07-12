@@ -9,7 +9,7 @@
 
     <v-row align="center" justify="center">
       <v-col cols="8">
-        <v-card v-if="!state.loading" class="value-card py-6 mt-4" rounded="lg">
+        <v-card v-if="!loading" class="value-card py-6 mt-4" rounded="lg">
           <v-card-title>
             <span class="mx-2">プール内の水温</span>
           </v-card-title>
@@ -18,7 +18,7 @@
           <v-row v-if="$vuetify.breakpoint.smAndUp" class="mx-4">
             <v-col>
               <span class="text-h2 font-weight-bold">{{
-                state.records[0].value.toFixed(1)
+                records[0].value.toFixed(1)
               }}</span>
               <span class="text-h4">℃</span>
             </v-col>
@@ -30,11 +30,11 @@
                 <span class="text-body-2"> 30分前との差 </span>
               </v-row>
               <v-row no-gutters>
-                <v-icon v-if="state.delta > 0" small class="mr-2" color="error"
+                <v-icon v-if="delta > 0" small class="mr-2" color="error"
                   >mdi-triangle
                 </v-icon>
                 <v-icon
-                  v-if="state.delta < 0"
+                  v-if="delta < 0"
                   small
                   class="mr-2"
                   color="success"
@@ -43,7 +43,7 @@
                 </v-icon>
 
                 <span class="text-h6 font-weight-bold">
-                  {{ state.delta.toFixed(1) }}℃
+                  {{ delta.toFixed(1) }}℃
                 </span>
               </v-row>
             </v-col>
@@ -53,7 +53,7 @@
           <v-col v-if="$vuetify.breakpoint.xs">
             <v-col>
               <span class="text-h2 font-weight-bold">{{
-                state.records[0].value.toFixed(1)
+                records[0].value.toFixed(1)
               }}</span>
               <span class="text-h4">℃</span>
             </v-col>
@@ -65,11 +65,11 @@
                 <span class="text-body-2"> 30分前との差 </span>
               </v-row>
               <v-row no-gutters>
-                <v-icon v-if="state.delta > 0" small class="mr-2" color="error"
+                <v-icon v-if="delta > 0" small class="mr-2" color="error"
                   >mdi-triangle
                 </v-icon>
                 <v-icon
-                  v-if="state.delta < 0"
+                  v-if="delta < 0"
                   small
                   class="mr-2"
                   color="success"
@@ -78,7 +78,7 @@
                 </v-icon>
 
                 <span class="text-h6 font-weight-bold">
-                  {{ state.delta.toFixed(1) }}℃
+                  {{ delta.toFixed(1) }}℃
                 </span>
               </v-row>
             </v-col>
@@ -88,7 +88,94 @@
             <v-row class="mx-4" no-gutters align="center">
               <v-icon class="mr-1" small>mdi-cached</v-icon>
               <span class="text-caption">{{
-                convertDateToString(new Date(state.records[0].datetime))
+                convertDateToString(new Date(records[0].datetime))
+              }}</span>
+            </v-row>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+
+      <!-- グラフPC用 -->
+      <v-col cols="8">
+        <v-card v-if="!loading" class="value-card py-6 mt-4" rounded="lg">
+          <v-card-title>
+            <span class="mx-2">プール内の水温</span>
+          </v-card-title>
+
+          <!-- PC画面用のUI -->
+
+          <v-sheet
+            class="v-sheet--offset mx-auto"
+            color="cyan"
+            elevation="5"
+            max-width="calc(100% - 32px)"
+          >
+            <v-sparkline
+              :labels="label"
+              :value="dots"
+              color="white"
+              line-width="2"
+              padding="16"
+            ></v-sparkline>
+          </v-sheet>
+
+          <v-card-text class="pt-0">
+            <div class="text-h6 font-weight-light mb-2">
+              User Registrations
+            </div>
+            <div class="subheading font-weight-light grey--text">
+              Last Campaign Performance
+            </div>
+            <v-divider class="my-2"></v-divider>
+            <v-icon
+              class="mr-2"
+              small
+            >
+              mdi-clock
+            </v-icon>
+            <span class="text-caption grey--text font-weight-light">last registration 26 minutes ago</span>
+          </v-card-text>
+
+          <!-- モバイル画面用のUI -->
+          <v-col v-if="$vuetify.breakpoint.xs">
+            <v-col>
+              <span class="text-h2 font-weight-bold">{{
+                records[0].value.toFixed(1)
+              }}</span>
+              <span class="text-h4">℃</span>
+            </v-col>
+
+            <v-divider class="my-3"></v-divider>
+
+            <v-col>
+              <v-row no-gutters>
+                <span class="text-body-2"> 30分前との差 </span>
+              </v-row>
+              <v-row no-gutters>
+                <v-icon v-if="delta > 0" small class="mr-2" color="error"
+                  >mdi-triangle
+                </v-icon>
+                <v-icon
+                  v-if="delta < 0"
+                  small
+                  class="mr-2"
+                  color="success"
+                  style="transform: rotate(180deg)"
+                  >mdi-triangle
+                </v-icon>
+
+                <span class="text-h6 font-weight-bold">
+                  {{ delta.toFixed(1) }}℃
+                </span>
+              </v-row>
+            </v-col>
+          </v-col>
+
+          <v-card-actions>
+            <v-row class="mx-4" no-gutters align="center">
+              <v-icon class="mr-1" small>mdi-cached</v-icon>
+              <span class="text-caption">{{
+                convertDateToString(new Date(records[0].datetime))
               }}</span>
             </v-row>
           </v-card-actions>
@@ -103,10 +190,10 @@ import {
   defineComponent,
   useAsync,
   useContext,
-  reactive,
+  ref,
 } from '@nuxtjs/composition-api'
 
-type Record = {
+interface Record {
   channel: number
   datetime: string
   id: string
@@ -115,26 +202,37 @@ type Record = {
   value: number
 }
 
+// type GraphRecord  = {
+//   dots: number
+// }
+
 export default defineComponent({
   name: 'RecordPage',
   setup() {
     const app = useContext()
 
     // state(データの状態)を保存しておく場所を定義
-    const state = reactive({
-      records: [] as Record[],
-      loading: true,
-      delta: 0,
-    })
+    const records = ref<Record[]>([])
+    const loading = ref<boolean>(true)
+    const delta = ref<number>(0)
+    const dots = ref<number[]>([])
+    const label = ref<string[]>([])
 
     // axios使ってデータをAPIから取得 -> stateに代入
     useAsync(async () => {
-      state.records = await app.$axios.get(app.$config.API_URL).then((res) => {
+      records.value = await app.$axios.get(app.$config.API_URL).then((res) => {
         return res.data.results
       })
-      state.delta = state.records[9].value - state.records[0].value
-      state.loading = false
+      delta.value = records.value[9].value - records.value[0].value
+      loading.value = false
+
+      for (let d = 0; d < 9; d++) {
+        // dots.value[d] = records.value[d].value
+        dots.value.push(records.value[d].value)
+        label.value.push(convertDateToString(new Date(records.value[d].datetime)))
+      }
     })
+
 
     // date型 -> 時間を表示される形式に変換(0埋め済)
     const convertDateToString = (date: Date) => {
@@ -159,10 +257,21 @@ export default defineComponent({
     }
 
     return {
-      state,
       convertDateToString,
       convertDateToCustomString,
+      records,
+      delta,
+      dots,
+      loading,
+      label,
     }
   },
 })
 </script>
+
+<style>
+.v-sheet--offset {
+  top: -24px;
+  position: relative;
+}
+</style>
