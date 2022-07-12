@@ -21,7 +21,7 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/icon.svg' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/Icon.svg' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
