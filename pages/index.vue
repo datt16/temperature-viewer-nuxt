@@ -58,7 +58,7 @@
               <span class="text-h4">℃</span>
             </v-col>
 
-            <v-divider class="my-3" />
+            <v-divider class="my-3"></v-divider>
 
             <v-col>
               <v-row no-gutters>
@@ -166,9 +166,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang="scss">
-.value-card {
-  height: 100%;
-}
-</style>
