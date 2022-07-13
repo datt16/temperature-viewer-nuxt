@@ -1,9 +1,7 @@
 <template>
-  <v-col justify="center">
+  <v-col align-self="start">
     <h1>
-      <v-icon large color="rgba(0,0,0)">
-        mdi-pool
-      </v-icon>
+      <v-icon large color="rgba(0,0,0)"> mdi-pool </v-icon>
       校内プール
     </h1>
 
@@ -12,17 +10,17 @@
       <h2>{{ convertDateToString(new Date()) }}</h2>
     </section>
 
-    <v-row align="center" justify="center">
+    <v-row justify="center">
       <!--  PC画面用のUI -->
       <v-col v-if="$vuetify.breakpoint.smAndUp" cols="6">
-        <v-card v-if="!loading" class="value-card py-6 mt-4" rounded="lg">
+        <v-card v-if="!loading" class="value-card py-2" rounded="lg">
           <v-card-title>
-            <span class="mx-2">プール内の水温</span>
+            <span class="mx-2 font-weight-bold">水温</span>
           </v-card-title>
 
           <v-row class="mx-4">
             <v-col>
-              <span class="text-h2 font-weight-bold">{{
+              <span class="text-h1 font-weight-bold">{{
                 records[0].value.toFixed(1)
               }}</span>
               <span class="text-h4">℃</span>
@@ -65,10 +63,10 @@
       </v-col>
 
       <!--  モバイル画面用のUI -->
-      <v-col v-if="$vuetify.breakpoint.xs" cols="11">
-        <v-card v-if="!loading" class="value-card py-6 mt-4" rounded="lg">
+      <v-col v-if="$vuetify.breakpoint.xs" cols="12">
+        <v-card v-if="!loading" class="value-card py-2 mt-4" rounded="lg">
           <v-card-title>
-            <span class="mx-2">プール内の水温</span>
+            <span class="mx-2 font-weight-bold">水温</span>
           </v-card-title>
           <v-col>
             <v-col>
@@ -118,18 +116,22 @@
       <!-- グラフ -->
       <!-- PC画面用のUI -->
       <v-col v-if="$vuetify.breakpoint.smAndUp" cols="5">
-        <v-card v-if="!loading" class="value-card py-4 mt-1" rounded="lg">
+        <v-card
+          v-if="!loading"
+          class="value-card py-4"
+          rounded="lg"
+          color="cyan"
+          dark
+        >
           <v-card-title>
-            <span class="mx-2">水温推移</span>
+            <span class="mx-2 font-weight-bold">水温推移</span>
           </v-card-title>
 
-          <v-row class="mx-4">
+          <v-row class="mx-2">
             <v-col>
               <v-sheet
                 class="v-sheet--offset mx-auto mt-5"
                 color="cyan"
-                elevation="5"
-                max-width="calc(100% - 32px)"
               >
                 <v-sparkline
                   :labels="label"
@@ -137,7 +139,7 @@
                   :show-labels="true"
                   color="white"
                   line-width="2"
-                  padding="16"
+                  padding="8"
                 ></v-sparkline>
               </v-sheet>
             </v-col>
@@ -154,24 +156,26 @@
       </v-col>
 
       <!-- モバイル画面用のUI -->
-      <v-col v-if="$vuetify.breakpoint.xs" cols="11">
-        <v-card v-if="!loading" class="value-card py-4 mt-1" rounded="lg">
+      <v-col v-if="$vuetify.breakpoint.xs" cols="12">
+        <v-card
+          v-if="!loading"
+          class="value-card py-4 mt-1"
+          rounded="lg"
+          color="cyan"
+          dark
+        >
           <v-card-title>
-            <span class="mx-2">水温推移</span>
+            <span class="mx-2 font-weight-bold">水温推移</span>
           </v-card-title>
           <v-col>
-            <v-sheet
-              class="v-sheet--offset mx-auto mt-3"
-              color="cyan"
-              elevation="5"
-              max-width="calc(100% - 32px)"
-            >
+            <v-sheet class="v-sheet--offset mx-auto ma-0" color="cyan">
               <v-sparkline
                 :labels="label"
                 :value="dots"
                 color="white"
                 line-width="2"
                 padding="16"
+                style="overflow-x: scroll"
               ></v-sparkline>
             </v-sheet>
           </v-col>
@@ -234,10 +238,11 @@ export default defineComponent({
       for (let d = 9; d >= 0; d--) {
         // dots.value[d] = records.value[d].value
         dots.value.push(records.value[d].value)
-        label.value.push(convertDateToString(new Date(records.value[d].datetime)))
+        label.value.push(
+          convertDateToString(new Date(records.value[d].datetime))
+        )
       }
     })
-
 
     // date型 -> 時間を表示される形式に変換(0埋め済)
     const convertDateToString = (date: Date) => {
