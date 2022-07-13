@@ -5,9 +5,9 @@
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer absolute app>
-      <span class="copy-">&copy; {{ new Date().getFullYear() }}</span>
-      <img class="umihime-logo" :src="require('@/static/logo/Sea-Net[FullColor_darkfont_darktheme].svg')"  />
+    <v-footer absolute app dark>
+      <span class="copy-">&copy; {{ new Date().getFullYear() }} Umihime Developer Team</span>
+      <img class="umihime-logo" :src="require('@/static/logo/Sea-Net[FullColor].svg')"  />
     </v-footer>
   </v-app>
 </template>
@@ -22,7 +22,12 @@ export default {
 .umihime-logo{
   margin-right: 0;
   margin-left: auto;
-  height: 50px;
+  height: 24px;
   width: auto;
+}
+@media (min-width: 1000px) {
+  .umihime-logo {
+    height: 40px;
+  }
 }
 </style>
